@@ -60,10 +60,10 @@ def create_assistant(client):
         model="gpt-4o",
         tools=[
             {
-                "type": "file_search"  # This adds the knowledge base as a tool
+                "type": "file_search"  
             },
             {
-                "type": "function",  # This adds the lead capture as a tool
+                "type": "function",  
                 "function": {
                     "name": "create_lead",
                     "description":
@@ -99,13 +99,13 @@ def create_assistant(client):
             }
         })
 
-    # Create a vector store and add the file to it
+   
     vector_store = client.vector_stores.create(
         name="Knowledge Base",
         file_ids=[file.id]
     )
 
-    # Update the assistant to use the vector store
+   
     assistant = client.beta.assistants.update(
         assistant_id=assistant.id,
         tool_resources={
@@ -115,7 +115,7 @@ def create_assistant(client):
         }
     )
 
-    # Create a new assistant.json file to load on future runs
+
     with open(assistant_file_path, 'w') as file:
       json.dump({'assistant_id': assistant.id}, file)
       print("Created a new assistant and saved the ID.")
