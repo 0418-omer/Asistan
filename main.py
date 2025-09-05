@@ -7,7 +7,7 @@ from openai import OpenAI
 import custom_functions  
 from waitress import serve  
 
-# Ortam değişkenlerinden API anahtarlarını al
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
 
@@ -23,7 +23,7 @@ client = OpenAI(
 
 assistant_id = custom_functions.create_assistant(client)  
 
-# Yeni bir konuşma başlatmak için GET endpoint
+
 @app.route('/start', methods=['GET'])
 def start_conversation():
   print("Starting a new conversation...")  
@@ -45,16 +45,16 @@ def chat():
 
   print(f"Received message: {user_input} for thread ID: {thread_id}") 
 
-  # Kullanıcı mesajını thread'e ekle
+ 
   client.beta.threads.messages.create(thread_id=thread_id,
                                    role="user",  
                                    content=user_input) 
 
-  # Asistanı çalıştır
+  
   run = client.beta.threads.runs.create(thread_id=thread_id,
                                      assistant_id=assistant_id)  
 
-  # Asistanın cevabı hazır mı veya işlem (function call) gerekiyor mu kontrol et
+  
   while True:
     run_status = client.beta.threads.runs.retrieve(thread_id=thread_id,
                                                 run_id=run.id)  
@@ -65,14 +65,14 @@ def chat():
         if tool_call.function.name == "create_lead":
           
 
-          # Fonksiyon için gerekli parametreleri 
+          
           arguments = json.loads(tool_call.function.arguments)
           name = arguments.get('name','')
           company_name = arguments.get('company_name','')
           phone = arguments.get('phone','')
           email = arguments.get('email','')
 
-          # custom_functions içindeki create_lead fonksiyonu ile işlem yap
+          
           output = custom_functions.create_lead(name, company_name, phone, email)
 
           # Asistana fonksiyon sonucu döndür
