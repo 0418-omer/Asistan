@@ -82,7 +82,7 @@ def chat():
                                                         "tool_call_id": tool_call.id,
                                                         "output": json.dumps(output)  
                                                     }])
-      time.sleep(1)  # API'ye çok sık istek atılmaması için bekleme
+      time.sleep(1) 
 
  
   messages = client.beta.threads.messages.list(thread_id=thread_id)
