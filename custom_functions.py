@@ -10,7 +10,7 @@ load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
 
-# Init OpenAI Client
+
 client = OpenAI(
     api_key=OPENAI_API_KEY,
     default_headers={"OpenAI-Beta": "assistants=v2"}
@@ -43,7 +43,7 @@ def create_lead(name="", company_name="", phone="", email=""):
 def create_assistant(client):
   assistant_file_path = 'assistant.json'
 
-  # If there is an assistant.json file already, then load that assistant
+
   if os.path.exists(assistant_file_path):
     with open(assistant_file_path, 'r') as file:
       assistant_data = json.load(file)
