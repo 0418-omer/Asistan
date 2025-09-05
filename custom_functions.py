@@ -15,7 +15,7 @@ client = OpenAI(
     api_key=OPENAI_API_KEY,
     default_headers={"OpenAI-Beta": "assistants=v2"}
 )
-# Add lead to Airtable
+
 def create_lead(name="", company_name="", phone="", email=""):
   url = "https://api.airtable.com/v0/appMymwmyUgcZRPRO/Leads"
   headers = {
@@ -39,7 +39,7 @@ def create_lead(name="", company_name="", phone="", email=""):
   else:
     print(f"Failed to create lead: {response.text}")
 
-# Create or load assistant
+
 def create_assistant(client):
   assistant_file_path = 'assistant.json'
 
@@ -50,15 +50,12 @@ def create_assistant(client):
       assistant_id = assistant_data['assistant_id']
       print("Loaded existing assistant ID.")
   else:
-    # If no assistant.json is present, create a new assistant using the below specifications
-
-    # To change the knowledge document, modifiy the file name below to match your document
-    # If you want to add multiple files, paste this function into ChatGPT and ask for it to add support for multiple files
+   
     file = client.files.create(file=open("knowledge.docx", "rb"),
                                purpose='assistants')
 
     assistant = client.beta.assistants.create(
-        # Getting assistant prompt from "prompts.py" file, edit on left panel if you want to change the prompt
+        
         instructions=assistant_instructions,
         model="gpt-4o",
         tools=[
